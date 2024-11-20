@@ -17,5 +17,9 @@ class Neighborhood extends Model
     {
         return $this->hasMany('App\Models\Customer');
     }
+    public function city()
+    {
+        return $this->belongsTo('App\Models\City');
+    }
 
 }

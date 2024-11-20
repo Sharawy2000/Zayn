@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\CustomerController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Web\User\AuthController;
 use App\Http\Controllers\Web\User\MainController;
@@ -42,5 +43,6 @@ Route::group([
     ],function(){
         Route::view('/','dashboard.index')->name('dashboard');
         Route::resource('users',UserController::class);
+        Route::resource('customers',CustomerController::class);
     });
 });

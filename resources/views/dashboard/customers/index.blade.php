@@ -6,12 +6,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Users</h1>
+            <h1 class="m-0">customers</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-              <li class="breadcrumb-item active">Users</li>
+              <li class="breadcrumb-item active">Customers</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -47,26 +47,34 @@
                       <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Phone</th>
                         <th>Email</th>
+                        <th>Neighborhood</th>
+                        <th>City</th>
+                        <th>Country</th>
                         <th>Created</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user )    
+                        @foreach ($customers as $customer )    
                             <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->created_at->diffForHumans()}}</td>
+                            <td>{{ $customer->id }}</td>
+                            <td>{{ $customer->name }}</td>
+                            <td>{{ $customer->phone }}</td>
+                            <td>{{ $customer->email }}</td>
+                            <td>{{ $customer->neighborhood->name }}</td>
+                            <td>{{ $customer->neighborhood->city->name }}</td>
+                            <td>{{ $customer->neighborhood->city->country->name }}</td>
+                            <td>{{ $customer->created_at->diffForHumans()}}</td>
                             <td>
-                                <form id="delete-form" action="{{ route('users.destroy',$user->id) }}" method="post">
+                                <form id="delete-form" action="{{ route('customers.destroy',$customer->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                <a href="{{ route('users.edit',$user->id) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('customers.edit',$customer->id) }}" class="btn btn-primary">Edit</a>
                                 {{-- <button class="btn btn-primary" form="delete-form">Delete</button> --}}
-                                <button class="btn btn-danger" form="delete-form" {{ auth()->user()->id == $user->id ? 'disabled' : '' }}>Delete</button>
+                                <button class="btn btn-danger" form="delete-form">Delete</button>
                             </td>
                             </tr>
                         @endforeach
@@ -75,7 +83,7 @@
                 </div>
                 <!-- /.card-body -->
               </div>
-              @include('inc.paginator',['paginator'=>$users])
+              @include('inc.paginator',['paginator'=>$customers])
               <!-- /.card -->
             </div>
           </div>

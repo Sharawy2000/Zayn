@@ -474,28 +474,52 @@
           <li class="nav-header">EXAMPLES</li>
           <li class="nav-item">
             <a href="{{ route('users.index') }}" class="nav-link">
-              <i class="nav-icon far fa-calendar-alt"></i>
+              <i class="nav-icon far fa-users"></i>
               <p>
                 Users
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/gallery.html" class="nav-link">
-              <i class="nav-icon far fa-image"></i>
+            <a href="{{ route('customers.index') }}" class="nav-link">
+              <i class="nav-icon far fa-users"></i>
               <p>
-                Gallery
+                Customers
               </p>
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{ route('customers.index') }}" class="nav-link">
+              <i class="nav-icon far fa-flag"></i>
+              <p>
+                Countries
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('customers.index') }}" class="nav-link">
+              <i class="nav-icon far fa-city"></i>
+              <p>
+                Cities
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('customers.index') }}" class="nav-link">
+              <i class="nav-icon far fa-home"></i>
+              <p>
+                Neighborhoods
+              </p>
+            </a>
+          </li>
+          {{-- <li class="nav-item">
             <a href="pages/kanban.html" class="nav-link">
               <i class="nav-icon fas fa-columns"></i>
               <p>
                 Kanban Board
               </p>
             </a>
-          </li>
+          </li> --}}
           {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
