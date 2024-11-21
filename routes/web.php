@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Dashboard\{
     CityController,
+    ColorController,
     CountryController,
     CustomerController,
     NeighborhoodController,
+    SizeController,
     UserController,
 };
 use App\Http\Controllers\Web\User\{
@@ -54,5 +56,7 @@ Route::group([
         Route::resource('countries',CountryController::class);
         Route::resource('cities',CityController::class);
         Route::resource('neighborhoods',NeighborhoodController::class);
+        Route::resource('colors',ColorController::class);
+        Route::resource('sizes',SizeController::class);
     });
 });
