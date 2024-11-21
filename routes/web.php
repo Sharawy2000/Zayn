@@ -1,9 +1,16 @@
 <?php
 
-use App\Http\Controllers\Dashboard\CustomerController;
-use App\Http\Controllers\Dashboard\UserController;
-use App\Http\Controllers\Web\User\AuthController;
-use App\Http\Controllers\Web\User\MainController;
+use App\Http\Controllers\Dashboard\{
+    CityController,
+    CountryController,
+    CustomerController,
+    NeighborhoodController,
+    UserController,
+};
+use App\Http\Controllers\Web\User\{
+    AuthController,
+    MainController,
+};
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -44,5 +51,8 @@ Route::group([
         Route::view('/','dashboard.index')->name('dashboard');
         Route::resource('users',UserController::class);
         Route::resource('customers',CustomerController::class);
+        Route::resource('countries',CountryController::class);
+        Route::resource('cities',CityController::class);
+        Route::resource('neighborhoods',NeighborhoodController::class);
     });
 });
