@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Services\ColorService;
 use Illuminate\Http\Request;
 
 class ColorController extends Controller
-{
+{    
+    protected $colorService;
+    public function __construct(ColorService $colorService){
+        $this->colorService = $colorService;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $colors = $this->colorService->all(5);
+        return view('dashboard.colors.index',compact('colors'));
     }
 
     /**
@@ -20,7 +26,7 @@ class ColorController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.colors.create');
     }
 
     /**
@@ -28,7 +34,13 @@ class ColorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name'=>'required|string|max:50'
+        ]);
+
+        $this->colorService->store($data);
+
+        return back()->with('success','Successfully color created');
     }
 
     /**
@@ -36,7 +48,8 @@ class ColorController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $color = $this->colorService->get($id);
+        return view('dashboard.colors.show',compact('color'));
     }
 
     /**
@@ -44,7 +57,8 @@ class ColorController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $color = $this->colorService->get($id);
+        return view('dashboard.colors.edit',compact('color'));
     }
 
     /**
@@ -52,7 +66,13 @@ class ColorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->validate([
+            'name'=>'nullable|string|max:50'
+        ]);
+
+        $this->colorService->update($data,$id);
+
+        return back()->with('success','Successfully color updated');
     }
 
     /**
@@ -60,6 +80,8 @@ class ColorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->colorService->delete($id);
+        return back()->with('success','Successfully color deleted');
+
     }
 }

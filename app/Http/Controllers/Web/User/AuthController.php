@@ -50,6 +50,5 @@ class AuthController extends Controller
     public function logout(){
         $this->userService->logoutProcess();
         return redirect()->route('login')->with('success','Succeefully Sign Out');
-
     }
 }

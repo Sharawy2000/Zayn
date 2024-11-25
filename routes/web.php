@@ -1,14 +1,21 @@
 <?php
 
 use App\Http\Controllers\Dashboard\{
+    CategoryController,
     CityController,
     ColorController,
+    ContactMessageController,
     CountryController,
     CustomerController,
     NeighborhoodController,
+    OrderController,
+    PaymentMethodController,
+    ProductController,
+    RoleController,
     SizeController,
     UserController,
 };
+use App\Http\Controllers\Dashboard\SettingController;
 use App\Http\Controllers\Web\User\{
     AuthController,
     MainController,
@@ -34,6 +41,7 @@ Route::group([
         Route::get('register','getRegister')->name('get-register');
         Route::post('register','postRegister')->name('post-register');
 
+        Route::post('logout','logout')->name('logout')->middleware('auth');
     });
     Route::group([
         'prefix'=>'user',
@@ -42,15 +50,15 @@ Route::group([
     ],function (){
         Route::get('profile','profile')->name('profile');
         Route::put('update-profile','updateProfile')->name('update-profile');
-        Route::post('logout','logout')->name('logout');
 
         Route::post('reset-password','resetPassword')->name('reset-password');
     });
     Route::group([
         'prefix'=>'dashboard',
-        'middleware'=>'auth'
+        'middleware'=>['auth','check-permission']
     ],function(){
         Route::view('/','dashboard.index')->name('dashboard');
+
         Route::resource('users',UserController::class);
         Route::resource('customers',CustomerController::class);
         Route::resource('countries',CountryController::class);
@@ -58,5 +66,12 @@ Route::group([
         Route::resource('neighborhoods',NeighborhoodController::class);
         Route::resource('colors',ColorController::class);
         Route::resource('sizes',SizeController::class);
+        Route::resource('categories',CategoryController::class);
+        Route::resource('products',ProductController::class);
+        Route::resource('payment-methods',PaymentMethodController::class);
+        Route::resource('orders',OrderController::class);
+        Route::resource('roles',RoleController::class);
+        Route::resource('contact-messages',ContactMessageController::class);
+        Route::resource('settings',SettingController::class);
     });
 });

@@ -45,4 +45,11 @@ class BaseService
         unlink($model->image);
     }
 
+    public function attach($model,$relation,$id){
+        $this->repository->attach($model,$relation,$id);
+    }
+    public function sync($model,$relation,$id){
+        $this->repository->sync($model,$relation,$id);
+    }
+
 }

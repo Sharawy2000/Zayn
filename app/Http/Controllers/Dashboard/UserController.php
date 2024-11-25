@@ -37,10 +37,14 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:50',
             'email'=>'required|email|unique:users,email',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed',
+            'roles'=>'required|array',
+            'roles.*'=>'required|integer',
         ]);
 
-        $this->userService->store($data);
+        $user = $this->userService->store($data);
+        $this->userService->attach($user,'roles',$data['roles']);
+
         return back()->with('success','User created successfully');
     }
 
@@ -70,9 +74,14 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => 'nullable|string|max:50',
             'email'=>'nullable|string|unique:users,email,'.$id,
+            'roles'=>'nullable|array',
+            'roles.*'=>'nullable|integer',
         ]);
 
-        $this->userService->update($data,$id);
+        $user = $this->userService->update($data,$id);
+        
+        $this->userService->sync($user,'roles',$data['roles']);
+        
         return back()->with('success','User updated successfully');
     }
 

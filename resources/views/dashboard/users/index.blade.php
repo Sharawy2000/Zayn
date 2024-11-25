@@ -23,9 +23,11 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
+          <a href="{{ route('users.create') }}" style="margin: 0px 0px 10px 8px" class="btn btn-success">Create a user</a>
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
+                  @include('inc.success-error-msg')
                   <h3 class="card-title">Table</h3>
   
                   <div class="card-tools">
@@ -48,6 +50,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Roles</th>
                         <th>Created</th>
                         <th>Actions</th>
                       </tr>
@@ -58,15 +61,28 @@
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
+                            <td>
+                              @foreach ($user->roles as $role )
+                              @if ($role->name == 'Super-Admin')
+                                <span class="badge badge-danger">{{ $role->name }}</span>
+                              @elseif ($role->name == 'Admin' || $role->name == 'Manager' )
+                                <span class="badge badge-success">{{ $role->name }}</span>
+                              @elseif ($role->name == 'Leader' || $role->name == 'Lead' )
+                                <span class="badge badge-warning">{{ $role->name }}</span>
+                              @else
+                                <span class="badge badge-primary">{{ $role->name }}</span>
+                              @endif
+                              @endforeach
+                            </td>
                             <td>{{ $user->created_at->diffForHumans()}}</td>
                             <td>
-                                <form id="delete-form" action="{{ route('users.destroy',$user->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <a href="{{ route('users.edit',$user->id) }}" class="btn btn-primary">Edit</a>
-                                {{-- <button class="btn btn-primary" form="delete-form">Delete</button> --}}
-                                <button class="btn btn-danger" form="delete-form" {{ auth()->user()->id == $user->id ? 'disabled' : '' }}>Delete</button>
+                              <a href="{{ route('users.edit',$user->id) }}" class="btn btn-primary">Edit</a>
+                              <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                style="display: inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" onclick="return confirm('Are you sure ?');" {{ $user->id == auth()->user()->id ? 'disabled' : '' }} class="btn btn-danger">Delete</button>
+                              </form>
                             </td>
                             </tr>
                         @endforeach

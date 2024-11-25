@@ -40,5 +40,9 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\Review');
     }
+    public function orders()
+    {
+        return $this->belongsToMany('App\Models\Order')->withPivot('quantity','price_at_order','color_id','size_id');
+    }
 
 }

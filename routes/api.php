@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ContactMessageController;
 use App\Http\Controllers\Api\Customer\AuthController;
 use App\Http\Controllers\Api\Customer\MainController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ResetPasswordController;
+use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Dashboard\SettingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -42,6 +45,7 @@ Route::group([
             // favourates 
             Route::get('/favorites','getFavorites');
             Route::post('/add-to-favorites','addToFavorites');
+
                 
         });
     });
@@ -53,9 +57,15 @@ Route::group([
         Route::post('/forgot','forgotPassword');
         Route::post('/reset','resetPassword');
     });
-
-    Route::apiResource('categories',CategoryController::class)->middleware('auth:sanctum');
-    Route::apiResource('offers',OfferController::class)->middleware('auth:sanctum');
-    Route::apiResource('products',ProductController::class)->middleware('auth:sanctum');
-    Route::apiResource('orders',OrderController::class)->middleware('auth:sanctum');
+    Route::group([
+        'middleware'=>'auth:sanctum'
+    ],function (){
+        Route::apiResource('categories',CategoryController::class);
+        Route::apiResource('offers',OfferController::class);
+        Route::apiResource('products',ProductController::class);
+        Route::apiResource('orders',OrderController::class);
+        Route::apiResource('reviews',ReviewController::class);
+        Route::apiResource('contact-messages',ContactMessageController::class);
+        Route::apiResource('settings',SettingController::class);
+    });
 });

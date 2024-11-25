@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Services\SizeService;
 use Illuminate\Http\Request;
 
 class SizeController extends Controller
 {
+    protected $sizeService;
+    public function __construct(SizeService $sizeService){
+        $this->sizeService = $sizeService;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $sizes = $this->sizeService->all(5);
+        return view('dashboard.sizes.index',compact('sizes'));
     }
 
     /**
@@ -20,7 +26,7 @@ class SizeController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.sizes.create');
     }
 
     /**
@@ -28,7 +34,13 @@ class SizeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name'=>'required|string|max:50'
+        ]);
+
+        $this->sizeService->store($data);
+
+        return back()->with('success','Successfully size created');
     }
 
     /**
@@ -36,7 +48,8 @@ class SizeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $size = $this->sizeService->get($id);
+        return view('dashboard.sizes.show',compact('size'));
     }
 
     /**
@@ -44,7 +57,8 @@ class SizeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $size = $this->sizeService->get($id);
+        return view('dashboard.sizes.edit',compact('size'));
     }
 
     /**
@@ -52,7 +66,13 @@ class SizeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->validate([
+            'name'=>'nullable|string|max:50'
+        ]);
+
+        $this->sizeService->update($data,$id);
+
+        return back()->with('success','Successfully size updated');
     }
 
     /**
@@ -60,6 +80,8 @@ class SizeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->sizeService->delete($id);
+        return back()->with('success','Successfully size deleted');
+
     }
 }

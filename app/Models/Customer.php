@@ -48,6 +48,10 @@ class Customer extends Authenticatable
         return $this->belongsToMany('App\Models\Offer');
     }
 
+    public function notifications()
+    {
+        return $this->hasMany('App\Models\Notification');
+    }
     public function reviews()
     {
         return $this->hasMany('App\Models\Review');

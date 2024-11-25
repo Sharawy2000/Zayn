@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Zain | Dashboard</title>
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -32,7 +32,7 @@
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="{{ asset('AdminDashboard/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="60" width="60">
+    <img class="animation__shake" src="{{ asset('AdminDashboard/dist/img/Z-logo.jpeg') }}" alt="AdminLogo" height="60" width="60">
   </div>
 
   <!-- Navbar -->
@@ -43,10 +43,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="{{ route('dashboard') }}" class="nav-link"><i class="fas fa-home"> </i> Home</a>
       </li>
     </ul>
 
@@ -182,8 +179,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('dashboard') }}" class="brand-link">
-      <img src="{{ asset('AdminDashboard/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Zayn Store</span>
+      <img src="{{ asset('AdminDashboard/dist/img/zain-logo.png') }}" alt="Zain Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Zain Store</span>
     </a>
 
     <!-- Sidebar -->
@@ -251,6 +248,78 @@
               <i class="nav-icon far fa-home"></i>
               <p>
                 Neighborhoods
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('colors.index') }}" class="nav-link">
+              <i class="nav-icon far fa-palette"></i>
+              <p>
+                Colors
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('sizes.index') }}" class="nav-link">
+              <i class="nav-icon far fa-cube "></i>
+              <p>
+                Sizes
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('categories.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-tags"></i>
+              <p>
+                Categories
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('products.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-tshirt"></i>
+              <p>
+                Products
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('orders.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-receipt"></i>
+              <p>
+                Orders
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('payment-methods.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-money-bill-alt"></i>
+              <p>
+                Payment Methods
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('roles.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-key"></i>
+              <p>
+                Roles
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('contact-messages.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-comments"></i>
+              <p>
+                Contact Messages
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('settings.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Settings
               </p>
             </a>
           </li>

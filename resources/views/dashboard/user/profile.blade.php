@@ -36,7 +36,19 @@
 
                 <h3 class="profile-username text-center">{{ $user->name }}</h3>
 
-                <p class="text-muted text-center">Adminstartor</p>
+                <p class="text-muted text-center">
+                  @foreach ($user->roles as $role )
+                  @if ($role->name == 'Super-Admin')
+                    <span class="badge badge-danger">{{ $role->name }}</span>
+                  @elseif ($role->name == 'Admin' || $role->name == 'Manager' )
+                    <span class="badge badge-success">{{ $role->name }}</span>
+                  @elseif ($role->name == 'Leader' || $role->name == 'Lead' )
+                    <span class="badge badge-warning">{{ $role->name }}</span>
+                  @else
+                    <span class="badge badge-primary">{{ $role->name }}</span>
+                  @endif
+                  @endforeach
+                </p>
 
                 {{-- <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">

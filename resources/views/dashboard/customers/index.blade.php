@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">customers</h1>
+            <h1 class="m-0">Customers</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -26,6 +26,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
+                  @include('inc.success-error-msg')
                   <h3 class="card-title">Table</h3>
   
                   <div class="card-tools">
@@ -68,13 +69,13 @@
                             <td>{{ $customer->neighborhood->city->country->name }}</td>
                             <td>{{ $customer->created_at->diffForHumans()}}</td>
                             <td>
-                                <form id="delete-form" action="{{ route('customers.destroy',$customer->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <a href="{{ route('customers.edit',$customer->id) }}" class="btn btn-primary">Edit</a>
-                                {{-- <button class="btn btn-primary" form="delete-form">Delete</button> --}}
-                                <button class="btn btn-danger" form="delete-form">Delete</button>
+                              <a href="{{ route('customers.edit',$customer->id) }}" class="btn btn-primary">Edit</a>
+                              <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
+                                style="display: inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" onclick="return confirm('Are you sure ?');" class="btn btn-danger">Delete</button>
+                              </form>
                             </td>
                             </tr>
                         @endforeach

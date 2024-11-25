@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">countries</h1>
+            <h1 class="m-0">Countries</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -28,6 +28,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
+                  @include('inc.success-error-msg')
                   <h3 class="card-title">Table</h3>
                   <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
@@ -57,13 +58,13 @@
                             <td>{{ $country->id }}</td>
                             <td>{{ $country->name }}</td>
                             <td>
-                                <form id="delete-form" action="{{ route('countries.destroy',$country->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
                                 <a href="{{ route('countries.edit',$country->id) }}" class="btn btn-primary">Edit</a>
-                                {{-- <button class="btn btn-primary" form="delete-form">Delete</button> --}}
-                                <button class="btn btn-danger" form="delete-form">Delete</button>
+                                <form action="{{ route('countries.destroy', $country->id) }}" method="POST"
+                                  style="display: inline-block">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" onclick="return confirm('Are you sure ?');" class="btn btn-danger">Delete</button>
+                                </form>
                             </td>
                             </tr>
                         @endforeach
