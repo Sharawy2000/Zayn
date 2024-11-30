@@ -15,9 +15,15 @@ class PaymentMethodController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $paymentMethods = $this->paymentMethodService->all(5);
+        if($request->search){
+            
+            $paymentMethods = $this->paymentMethodService->modelFilter($request->search,5);
+        }else{
+            $paymentMethods = $this->paymentMethodService->all(5);
+
+        }
         return view('dashboard.payment-methods.index',compact('paymentMethods'));
     }
 

@@ -15,9 +15,15 @@ class CountryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $countries = $this->countryService->all(5);
+        if($request->search){
+            
+            $countries = $this->countryService->modelFilter($request->search,5);
+        }else{
+            $countries = $this->countryService->all(5);
+
+        }
         return view('dashboard.countries.index',compact('countries'));
     }
 

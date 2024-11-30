@@ -308,6 +308,14 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{ route('home-slides.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-image"></i>
+              <p>
+                Home Slides
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{ route('contact-messages.index') }}" class="nav-link">
               <i class="nav-icon fas fa-comments"></i>
               <p>

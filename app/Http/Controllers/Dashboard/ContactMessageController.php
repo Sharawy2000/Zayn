@@ -15,9 +15,15 @@ class ContactMessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $contactMessages = $this->contactMessageService->all(5);
+        if($request->search){
+            
+            $contactMessages = $this->contactMessageService->modelFilter($request->search,5);
+        }else{
+            $contactMessages = $this->contactMessageService->all(5);
+
+        }
         return view('dashboard.contact-Messages.index',compact('contactMessages'));
     }
 

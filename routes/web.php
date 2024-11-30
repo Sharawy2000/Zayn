@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\{
     ContactMessageController,
     CountryController,
     CustomerController,
+    HomeSlideController,
     NeighborhoodController,
     OrderController,
     PaymentMethodController,
@@ -16,15 +17,14 @@ use App\Http\Controllers\Dashboard\{
     UserController,
 };
 use App\Http\Controllers\Dashboard\SettingController;
+use App\Http\Controllers\Web\Customer\AuthController as CustomerAuthController;
+use App\Http\Controllers\Web\Customer\MainController as CustomerMainController;
+use App\Http\Controllers\Web\MainController as WebMainController;
 use App\Http\Controllers\Web\User\{
     AuthController,
     MainController,
 };
 use Illuminate\Support\Facades\Route;
-
-// Route::get('/', function () {
-//     return view('dashboard.index');
-// })->name('dashboard')->middleware('auth');
 
 Route::group([
     'prefix'=>'v1'
@@ -72,6 +72,56 @@ Route::group([
         Route::resource('orders',OrderController::class);
         Route::resource('roles',RoleController::class);
         Route::resource('contact-messages',ContactMessageController::class);
+        Route::resource('home-slides',HomeSlideController::class);
         Route::resource('settings',SettingController::class);
     });
+
+    Route::view('/','web.index')->name('Home');
+
+    Route::group([
+        'prefix'=>'web/auth',
+        'controller'=>CustomerAuthController::class
+    ],function(){
+        Route::get('/sign-up','getRegister')->name('getSignUp');
+        Route::get('/sign-in','getLogin')->name('getSignIn');
+        Route::post('/sign-up','postRegister')->name('postSignUp');
+        Route::post('/sign-in','postLogin')->name('postSignIn');
+        Route::post('/logout','logout')->name('web-logout');
+
+    });
+    Route::group([
+        'prefix'=>'customer',
+        'controller'=>CustomerMainController::class,
+        'middleware'=>'is-customer',
+    ],function(){
+        Route::post('add-to-cart','addToCart')->name('web-addToCart');
+        Route::post('add-review','addReview')->name('add-review');
+        Route::post('add-favs','addToFavorites')->name('add-favs');
+        Route::get('favs','favorites')->name('favs');
+        Route::get('cart','cart')->name('cart');
+        Route::patch('update-cart','updateCart')->name('update-cart');
+        Route::get('remove-item/{id}','deleteCartItem')->name('remove-item');
+        Route::post('apply-coupon','applyCoupon')->name('apply-coupon');
+    });
+    
+    Route::group([
+        'controller'=>WebMainController::class
+    ],function(){
+
+        Route::post('add-contact-message','addContactMsg')->name('add-ContactMsg');
+        Route::get('get-countries','getCountries');
+        Route::get('get-cities/{id}','getCities');
+        Route::get('get-neighborhoods/{id}','getNeighborhoods');
+
+
+        Route::get('about','getAbout')->name('about');
+        Route::get('contact','getContact')->name('contact');
+
+        // products 
+        Route::get('shop','allProducts')->name('shop');
+        Route::get('all-products/{id}','showProduct')->name('show-product');
+
+        
+    });
+    
 });

@@ -15,9 +15,14 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = $this->orderService->all(5);
+        if($request->search){
+            $orders = $this->orderService->modelFilter($request->search,5,['paymentMethod'],['id','total_price','price_after_offer']);
+        }else{
+            $orders = $this->orderService->all(5);
+
+        }
         return view('dashboard.orders.index',compact('orders'));
     }
 

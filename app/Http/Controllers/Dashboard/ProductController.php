@@ -15,9 +15,15 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = $this->productService->all(5);
+        if($request->search){
+            
+            $products = $this->productService->modelFilter($request->search,5,['category','sizes','colors']);
+        }else{
+            $products = $this->productService->all(5);
+
+        }
         return view('dashboard.products.index',compact('products'));
     }
 
@@ -41,15 +47,15 @@ class ProductController extends Controller
             'category_id'=>'required|integer|exists:categories,id',
             'price'=>'required|string',
             'images'=>'required|array',
-            'images.*'=>'required|mimes:jpg,jpeg,gif,png',
+            'images.*'=>'required|mimes:jpg,jpeg,gif,png,webp',
             'colors'=>'required|array',
             'colors.*'=>'required|exists:colors,id',
             'colors_price_adjustment'=>'nullable|array',
-            'colors_price_adjustment.*'=>'required|integer',
+            'colors_price_adjustment.*'=>'nullable|integer',
             'sizes'=>'required|array',
             'sizes.*'=>'required|exists:sizes,id',
             'sizes_price_adjustment'=>'nullable|array',
-            'sizes_price_adjustment.*'=>'required|integer',
+            'sizes_price_adjustment.*'=>'nullable|integer',
 
         ]);
 

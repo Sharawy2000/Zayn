@@ -37,9 +37,11 @@
                         <input type="text" name='name' class="form-control" id="exampleInputEmail1" placeholder="Enter a category name">
                       </div>
                       <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
                         <textarea name="description" class="form-control" id="exampleInputEmail1" cols="30" rows="10" placeholder="Write a description . . ."></textarea>
                       </div>
                       <div class="form-group">
+                        <label for="exampleInputEmail1">Image</label>
                         <input type="file" class="form-control" name="image">
                       </div>
                     </div>

@@ -30,22 +30,30 @@ class CustomerService extends BaseService
         $this->cartItemRepository=$cartItemRepository;
     }
 
-    public function customer(){
-        $customer = Auth::guard('api-customer')->user();
+    public function customer($isWeb=null){
+        if($isWeb){
+
+            $customer = Auth::guard('web-customer')->user();
+        }else{
+
+            $customer = Auth::guard('api-customer')->user();
+        }
         return $customer;
     }
 
-    public function cart(){
-        $customer =$this->customer();
+    public function cart($isWeb=null){
+        $customer =$this->customer($isWeb);
         $cart = $customer->cart;
         if(!$cart){
             return ['errorCartNotFound'=>true];
         }
-        $cartItems = $this->cartRepository->getRelationData($cart,'items');
+        // $cartItems = $this->cartRepository->getRelationData($cart,'items');
+        $cartItems = $this->cartItemRepository->getCustomerCartItems($cart->id,3);
         return $cartItems;
     }
-    public function productToCart($data){
-        $customer = $this->customer();
+    public function productToCart($data,$isWeb=null){
+        $customer = $this->customer($isWeb);
+        // dd($customer);
         $product=$this->productRepository->find($data['product_id']);    
         $data['customer_id']=$customer->id;
         
@@ -70,13 +78,11 @@ class CustomerService extends BaseService
 
         $this->cartRepository->updateColumnValue($cart,'price_after_offer',null);
             
-        // $this->customerRepository->detach($customer,'offers');
-
         return $cart->load('items');
     }
 
-    public function updateCart($data){
-        $customer = $this->customer();
+    public function updateCart($data,$isWeb=null){
+        $customer = $this->customer($isWeb);
         $cart = $customer->cart;
 
         foreach($data['items'] as $index => $itemID){
@@ -103,10 +109,9 @@ class CustomerService extends BaseService
         }
         $this->cartRepository->updateColumnValue($cart,'price_after_offer',null);
         
-        // $this->customerRepository->detach($customer,'offers');
     }
-    public function deleteCartItem($id){
-        $customer = $this->customer();
+    public function deleteCartItem($id,$isWeb=null){
+        $customer = $this->customer($isWeb);
         $cart = $customer->cart;
         $cartItem=$this->cartItemRepository->getRelationQueryValue($cart,'items','id',$id);
         if(!$cartItem){
@@ -118,34 +123,13 @@ class CustomerService extends BaseService
 
         $this->cartItemRepository->remove($id);
 
-        // $this->customerRepository->detach($customer,'offers');
-
         $this->cartRepository->updateColumnValue($cart,'price_after_offer',null);
     }
 
-    public function applyCoupon($data){
-        $customer = $this->customer();
+    public function applyCoupon($data,$isWeb=null){
+        $customer = $this->customer($isWeb);
         $offer = $this->offerRepository->checkByColumn('name', $data['offer_coupon']);
 
-        // $isOfferUsed = $this->offerRepository->checkPivotColumn($customer,'offers','offer_id',$offer->id);
-
-        // if($isOfferUsed){
-        //     return ['errorCouponUsedOnce'=>true];
-        // }else{
-        //     if($offer->date_begin <= now() && $offer->date_end > now()){
-        //         $cart = $customer ->cart;
-        //         $dicountedPrice = $cart->price * $offer->discount / 100;
-
-        //         $priceAfterOffer = $cart->price - $dicountedPrice;
-
-        //         $this->cartRepository->updateColumnValue($cart,'price_after_offer',$priceAfterOffer);
-
-        //         $this->cartItemRepository->attach($customer,'offers',$offer->id);
-                
-        //     }else{
-        //         return['expiredOffer'=>true];
-        //     }
-        // }
         if($offer->date_begin <= now() && $offer->date_end > now()){
             $cart = $customer ->cart;
             $dicountedPrice = $cart->price * $offer->discount / 100;
@@ -154,19 +138,19 @@ class CustomerService extends BaseService
 
             $this->cartRepository->updateColumnValue($cart,'price_after_offer',$priceAfterOffer);
 
-            // $this->cartItemRepository->attach($customer,'offers',$offer->id);
-            
+            return $offer;
+
         }else{
             return['expiredOffer'=>true];
         }
     }
-    public function myFavourties(){
-        $customer = $this->customer();
+    public function myFavourties($isWeb=null){
+        $customer = $this->customer($isWeb);
         $favourties = $this->customerRepository->getRelationData($customer, 'favorites');
         return $favourties;
     }
-    public function toggle($data){
-        $customer = $this->customer();
+    public function toggle($data,$isWeb=null){
+        $customer = $this->customer($isWeb);
         $favToggle=$this->customerRepository->toggle($customer, $data['product_id']);
         return $favToggle;
     }

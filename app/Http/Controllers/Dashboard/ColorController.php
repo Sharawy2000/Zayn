@@ -15,9 +15,15 @@ class ColorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $colors = $this->colorService->all(5);
+        if($request->search){
+            
+            $colors = $this->colorService->modelFilter($request->search,5);
+        }else{
+            $colors = $this->colorService->all(5);
+
+        }
         return view('dashboard.colors.index',compact('colors'));
     }
 

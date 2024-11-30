@@ -44,11 +44,11 @@
     <nav class="pagination-container">
         <ul class="pagination">
             {{-- Previous Page Link --}}
-            @if ($paginator->onFirstPage())
+            {{-- @if ($paginator->onFirstPage())
                 <li class="disabled"><span>&laquo; Previous</span></li>
             @else
                 <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev">&laquo; Previous</a></li>
-            @endif
+            @endif --}}
 
             {{-- Pagination Elements --}}
             @foreach ($paginator->links()->elements as $element)
@@ -71,11 +71,11 @@
             @endforeach
 
             {{-- Next Page Link --}}
-            @if ($paginator->hasMorePages())
+            {{-- @if ($paginator->hasMorePages())
                 <li><a href="{{ $paginator->nextPageUrl() }}" rel="next">Next &raquo;</a></li>
             @else
                 <li class="disabled"><span>Next &raquo;</span></li>
-            @endif
+            @endif --}}
         </ul>
     </nav>
 @endif

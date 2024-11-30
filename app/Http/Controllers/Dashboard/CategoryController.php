@@ -15,9 +15,15 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = $this->categoryService->all(5);
+        if($request->search){
+            
+            $categories = $this->categoryService->modelFilter($request->search,5);
+        }else{
+            $categories = $this->categoryService->all(5);
+
+        }
         return view('dashboard.categories.index',compact('categories'));
     }
 

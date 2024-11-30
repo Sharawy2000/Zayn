@@ -78,7 +78,7 @@
                                         <option value="{{ $color->id }}" {{ $productColor->id == $color->id ? 'selected' : '' }}>{{ $color->name }}</option>
                                     @endforeach
                                 </select>
-                                <input type="number" name="colors_price_adjustment[]" style="margin: 5px 0px 20px 0px" class="form-control price-adjustment" min="1" value="{{ $productColor->pivot->price_adjustment }}"/>
+                                <input type="number" name="colors_price_adjustment[]" style="margin: 5px 0px 20px 0px" class="form-control price-adjustment" min="0" value="{{ $productColor->pivot->price_adjustment }}"/>
                             </div>
                             @endforeach
                           </div>
@@ -95,7 +95,7 @@
                                           <option value="{{ $size->id }}" {{ $productSize->id == $size->id ? 'selected' : '' }}>{{ $size->name }}</option>
                                       @endforeach
                                   </select>
-                                  <input type="number" name="sizes_price_adjustment[]" style="margin: 5px 0px 20px 0px" class="form-control price-adjustment" min="1" value="{{ $productSize->pivot->price_adjustment }}" />
+                                  <input type="number" name="sizes_price_adjustment[]" style="margin: 5px 0px 20px 0px" class="form-control price-adjustment" min="0" value="{{ $productSize->pivot->price_adjustment }}" />
                               </div>
                             @endforeach
                           </div>

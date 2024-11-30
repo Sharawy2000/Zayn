@@ -19,6 +19,8 @@ interface BaseRepositoryInterface
     public function getPivotColumnValue($model,$relation,string $column,$value,$target);
     public function checkPivotColumn($model,string $relation, string $column,$value);
     public function modelRelationAction($model,$relation,string $action);
+    public function getFilteredData($filter,$pgn,$relations=[],$filterableFields=['id','name']);
+
 
 
 }

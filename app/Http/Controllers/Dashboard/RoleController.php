@@ -15,9 +15,15 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $roles = $this->roleService->all(5);
+        if($request->search){
+            
+            $roles = $this->roleService->modelFilter($request->search,5);
+        }else{
+            $roles = $this->roleService->all(5);
+
+        }
         return view('dashboard.roles.index',compact('roles'));
     }
 

@@ -7,6 +7,8 @@ use App\Repositories\Contract\BaseRepositoryInterface;
 class BaseRepository implements BaseRepositoryInterface
 {
     protected $model;
+    protected $defaultFilterableFields = ['name', 'id'];
+
     public function __construct(Model $model){
         $this->model = $model;
     }
@@ -65,6 +67,29 @@ class BaseRepository implements BaseRepositoryInterface
     public function modelRelationAction($model,$relation,string $action){
         return $model->$relation()->$action();
     }
+    public function getFilteredData($filter,$pgn,$relations=[],$filterableFields=null){
+
+        $filterableFields ??= $this->defaultFilterableFields;
+        
+        $query = $this->model->newQuery();
+
+        if (!empty($relations)) {
+            foreach ($relations as $relation) {
+                $query->orWhereHas($relation, function ($query) use ($filter) {
+                    $query->where('name', 'like', '%' . $filter . '%');
+                });
+            }
+        }
+        $query->orWhere(function($query) use($filter,$filterableFields){
+            foreach($filterableFields as $field){
+                $query->orWhere($field, 'like', '%' . $filter . '%');
+            }
+        });
+
+        
+        return $query->latest()->paginate($pgn);
+    }
+    
 
 
 

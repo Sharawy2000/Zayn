@@ -49,7 +49,7 @@ class OrderService extends BaseService
             // dd($item);
             $price = $item->product->price * $item->quantity + $item->price_adjustment;
             $this->orderRepository->attach($order,'products',$item->product->id,[
-                'quantity' => $item->quantity,
+                'quantity' => $item->quantity == 0 ? 1 : $item->quantity,
                 'price_at_order'=>$price,
                 'color_id'=>$item->color_id,
                 'size_id'=>$item->size_id

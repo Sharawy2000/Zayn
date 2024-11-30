@@ -15,9 +15,14 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = $this->customerService->all(5);
+        if($request->search){
+            $customers = $this->customerService->modelFilter($request->search,5,['neighborhood'],['id','name','email','phone']);
+        }else{
+            $customers = $this->customerService->all(5);
+
+        }
         return view('dashboard.customers.index',compact('customers'));
     }
 

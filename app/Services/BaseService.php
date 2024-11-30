@@ -51,5 +51,8 @@ class BaseService
     public function sync($model,$relation,$id){
         $this->repository->sync($model,$relation,$id);
     }
+    public function modelFilter($filter,$pgn,$relation=null,$filterableFields=null){
+        return  $this->repository->getFilteredData($filter,$pgn,$relation,$filterableFields);
+    }
 
 }

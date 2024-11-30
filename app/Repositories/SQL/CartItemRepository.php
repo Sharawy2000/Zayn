@@ -12,5 +12,8 @@ class CartItemRepository extends BaseRepository implements CartItemRepositoryInt
         parent::__construct($cartItem);
         $this->cartItem = $cartItem;
     }
+    public function getCustomerCartItems($id,$pgn){
+        return $this->cartItem->where('cart_id',$id)->latest()->paginate($pgn);
+    }
     
 }

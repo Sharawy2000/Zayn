@@ -15,9 +15,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->userService->all(5);
+        // dd($request->all());
+        if($request->search){
+
+            $users = $this->userService->modelFilter($request->search,5);
+        }else{
+            $users = $this->userService->all(5);
+
+        }
         return view('dashboard.users.index',compact('users'));
     }
 

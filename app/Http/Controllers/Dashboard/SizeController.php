@@ -15,9 +15,16 @@ class SizeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sizes = $this->sizeService->all(5);
+        // dd($request->all());
+        if($request->search){
+
+            $sizes = $this->sizeService->modelFilter($request->search,5);
+        }else{
+            $sizes = $this->sizeService->all(5);
+
+        }
         return view('dashboard.sizes.index',compact('sizes'));
     }
 

@@ -16,9 +16,15 @@ class CityController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cities = $this->cityService->all(5);
+        if($request->search){
+            
+            $cities = $this->cityService->modelFilter($request->search,5,['country']);
+        }else{
+            $cities = $this->cityService->all(5);
+
+        }
         return view('dashboard.cities.index',compact('cities'));
     }
 

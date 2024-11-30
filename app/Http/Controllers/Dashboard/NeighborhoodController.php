@@ -15,9 +15,15 @@ class NeighborhoodController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $neighborhoods = $this->neighborhoodService->all(5);
+        if($request->search){
+            
+            $neighborhoods = $this->neighborhoodService->modelFilter($request->search,5,['city']);
+        }else{
+            $neighborhoods = $this->neighborhoodService->all(5);
+
+        }
         return view('dashboard.neighborhoods.index',compact('neighborhoods'));
     }
 

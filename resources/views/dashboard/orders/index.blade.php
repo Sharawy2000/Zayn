@@ -30,13 +30,17 @@
                   <h3 class="card-title">Table</h3>
   
                   <div class="card-tools">
+                    <form id="search-form" action="{{ route('orders.index') }}" method="get">
+                      @csrf
+                    </form>
                     <div class="input-group input-group-sm" style="width: 150px;">
-                      <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                      <input type="text" name="search" class="form-control float-right" placeholder="Search" form="search-form">
   
                       <div class="input-group-append">
-                        <button type="submit" class="btn btn-default">
+                        <button type="submit" class="btn btn-default" form="search-form">
                           <i class="fas fa-search"></i>
                         </button>
+                        <a href="{{ route('orders.index') }}" class="btn btn-default" ><i class="fas fa-times-circle" ></i></a>
                       </div>
                     </div>
                   </div>
