@@ -27,7 +27,7 @@ class AuthController extends Controller
             return back()->withErrors('Invalid Information, please try again')->withInput();
         }
 
-        return redirect()->route('Home');
+        return redirect()->intended(route('Home'));
     }
     public function getRegister(){
         return view('web.customer.auth.register');

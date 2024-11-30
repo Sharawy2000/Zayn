@@ -6,11 +6,11 @@
 		@php
 			$customer = auth()->guard('web-customer')->user();
 			$cart = $customer->cart;
-			$items = $cart->items;
+			$items = $cart ? $cart->items : null;
 			$favs = $customer->favorites;
 		@endphp
 	@endif
-<head>
+<head>	
 	<title>@yield('title')</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -93,13 +93,15 @@
 					</div>
 				</div>
 			</div>
-
+			
 			<div class="wrap-menu-desktop">
+				{{-- @include('inc.success-error-msg') --}}
 				<nav class="limiter-menu-desktop container">
 					
 					<!-- Logo desktop -->		
-					<a href="#" class="logo">
-						<img src="{{ asset('web-app/images/icons/logo-01.png') }}" alt="IMG-LOGO">
+					<a href="{{ route('Home') }}" class="logo">
+						{{-- <img src="{{ asset('web-app/images/icons/logo-01.png') }}" alt="IMG-LOGO"> --}}
+						<span class="ltext-202 cl2 p-t-19 p-b-43 respon1" style="margin-top: 15px"> Zain Store</span>
 					</a>
 
 					<!-- Menu desktop -->
@@ -275,7 +277,7 @@
 					@endphp
 					@if(auth()->guard('web-customer')->user())
 						@if($cart)
-							@foreach ( $customer->cart->items as $item )
+							@foreach ( $customer->cart->items()->latest()->get() as $item )
 								<li class="header-cart-item flex-w flex-t m-b-12">
 									<div class="header-cart-item-img">
 										<img src="{{ url($item->product->images()->first() ?->url) }}" alt="IMG">
@@ -312,13 +314,13 @@
 					</div>
 
 					<div class="header-cart-buttons flex-w w-full">
-						<a href="{{ route('cart') }}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+						<a href="{{ route('cart') }}" class="flex-c-m stext-101 cl0 size-117 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
 							View Cart
 						</a>
 
-						<a href="{{ route('cart') }}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+						{{-- <a href="{{ route('cart') }}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
 							Check Out
-						</a>
+						</a> --}}
 					</div>
 				</div>
 			</div>
@@ -453,7 +455,7 @@
 
 				<p class="stext-107 cl6 txt-center">
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
 				</p>
@@ -532,11 +534,37 @@
 			});
 		});
 
-		$('.js-addwish-detail').each(function(){
+		// $('.js-addwish-detail').each(function(){
+		// 	var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+		// 	var ProductID = $(this).parent().parent().find('.js-id-detail').html();
+
+		// 	$(this).on('click', function(){
+		// 		if(!auth()->guard('web-customer')->user()->favorites->contains(productID)){
+		// 			swal(nameProduct, "is added to wishlist !", "success");
+		// 		}else{
+		// 			swal(nameProduct, "has been removed from your wishlist !", "error");
+
+		// 		}
+
+		// 		$(this).addClass('js-addedwish-detail');
+		// 		// $(this).off('click');
+		// 	});
+		// });
+		// $('.js-removewish-detail').each(function(){
+		// 	var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+
+		// 	$(this).on('click', function(){
+		// 		swal(nameProduct, "has been removed from your wishlist !", "error");
+
+		// 		$(this).addClass('js-romovedwish-detail');
+		// 		// $(this).off('click');
+		// 	});
+		// });
+		$('.js-addorder-detail').each(function(){
 			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
 
 			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
+				swal(nameProduct, "is added to Order !", "success");
 
 				$(this).addClass('js-addedwish-detail');
 				$(this).off('click');

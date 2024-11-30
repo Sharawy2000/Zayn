@@ -394,7 +394,7 @@
 								</div>
 
 								<div class="block2-txt-child2 flex-r p-t-3">
-                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative addTofav" data-product-id="{{ $product->id }}">
+                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative addTofav" data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}">
                                         @auth('web-customer')
                                         @if(auth()->guard('web-customer')->user()->favorites->contains($product->id))
                                         <!-- Filled heart for favorited products -->

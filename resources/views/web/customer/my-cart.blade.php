@@ -2,6 +2,7 @@
 @section('title')
     Cart
 @endsection
+@inject('paymentMethod','App\Models\PaymentMethod' )
 @section('header_class') header-v4 @endsection
 @section('body')
     <!-- breadcrumb -->
@@ -20,9 +21,8 @@
 	
 	
 	<!-- Shoping Cart -->
-	<form class="bg0 p-t-75 p-b-85">
+	<form class="bg0 p-t-75 p-b-85" action="{{ route('add-order') }}" method="post">
 		@csrf
-		@method("PATCH")
 		<div class="container">
 			@include('inc.success-error-msg')
 			<div class="row">
@@ -55,7 +55,7 @@
 												</div>
 												
 												<input type="hidden" name="items[]" value="{{ $item->id }}" form="update-cart-form">
-												<input class="mtext-104 cl3 txt-center num-product" type="number" name="quantities[]" value="{{ $item->quantity }}" form="update-cart-form" >
+												<input class="mtext-104 cl3 txt-center num-product" name="quantities[]"  value="{{ $item->quantity }}" form="update-cart-form" >
 
 												<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 													<i class="fs-16 zmdi zmdi-plus"></i>
@@ -117,10 +117,11 @@
 
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
 								@php
-									$shipping = 100;
+									$shipping = $cartItems->first()?->cart->price > 100 ? 0 : 100;
+									$msg = $shipping == 0 ? 'Free Shipping (> $100)': '' ;
 								@endphp
 								<p >
-									${{ $shipping }}
+									${{ $shipping }}<br>{{ $msg }}
 								</p>
 							</div>
 						</div>
@@ -138,7 +139,23 @@
 							</div>
 						</div>
 						@endif
+						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+							<div class="size-208 w-full-ssm">
+								<span class="stext-110 cl2">
+									Payment:
+								</span>
+							</div>
 
+							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+								<select name="payment_method_id" id="">
+									<option value="" selected disabled >Select a Method</option>
+									@foreach ($paymentMethod::all() as $payment )
+										<option value="{{ $payment->id }}">{{ $payment->name }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+						
 						<div class="flex-w flex-t p-t-27 p-b-33">
 							<div class="size-208">
 								<span class="mtext-101 cl2">
@@ -153,7 +170,7 @@
 							</div>
 						</div>
 
-						<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+						<button type="submit" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer btn-order">
 							Proceed to Checkout
 						</button>
 					</div>
@@ -168,7 +185,12 @@
 	<form id="coupon-form" action="{{ route('apply-coupon') }}" method="post">
 		@csrf
 	</form>
-	{{-- <form id="remove-item-form" action="{{ route('apply-coupon') }}" method="post">
-		@csrf
-	</form> --}}
+@endsection
+@section('scripts')
+	<script>
+		document.on('click','.btn-order',function(e){
+			swal("productName","Order is Done!", "success");
+		});
+	</script>
+	
 @endsection

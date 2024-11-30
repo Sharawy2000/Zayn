@@ -126,13 +126,10 @@
                 <div class="col-12">
                   <p class="lead">Amount Due 2/22/2014</p>
 
-                  @php
-                    $tax_price = $order->price_after_offer == 0 ? $order->total_price * 9.3 / 100 : $order->price_after_offer * 9.3 / 100;
-                    $total_price = $order->price_after_offer == 0 ? $order->total_price - $tax_price - $order->shipping_fees : $order->price_after_offer - $tax_price - $order->shipping_fees;
-                  @endphp
+      
                   <div class="table-responsive">
                     <table class="table">
-                      <tr>
+                      {{-- <tr>
                         <th style="width:50%">Subtotal:</th>
                         <td>${{ $order->price_after_offer == 0 ? $order->total_price : $order->price_after_offer  }}</td>
                       </tr>
@@ -143,10 +140,22 @@
                       <tr>
                         <th>Shipping:</th>
                         <td>${{ $order->shipping_fees }}</td>
+                      </tr> --}}
+                      @php
+                          $discountedPrice = $order->total_price - $order->price_after_offer;
+                          $rate = $discountedPrice / $order->total_price;
+                      @endphp
+                      <tr>
+                        <th>Total Price:</th>
+                        <td>${{ $order->total_price }}</td>
                       </tr>
                       <tr>
-                        <th>Total:</th>
-                        <td>${{ $total_price }}</td>
+                        <th>Offer discount:</th>
+                        <td>%{{ $rate == 1 ? 0 : $rate*100 }}</td>
+                      </tr>
+                      <tr>
+                        <th>Total After Offer:</th>
+                        <td>${{ $order->price_after_offer==0 ? $order->total_price : $order->price_after_offer }}</td>
                       </tr>
                     </table>
                   </div>

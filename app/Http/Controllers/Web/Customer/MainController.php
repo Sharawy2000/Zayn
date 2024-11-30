@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Customer;
 use App\Http\Controllers\Controller;
 use App\Services\ContactMessageService;
 use App\Services\CustomerService;
+use App\Services\OrderService;
 use App\Services\ReviewService;
 use Illuminate\Http\Request;
 
@@ -12,11 +13,14 @@ class MainController extends Controller
 {
     protected $customerService;
     protected $reviewService;
+    protected $orderService;
     public function __construct(CustomerService $customerService,
     ReviewService $reviewService,
+    OrderService $orderService
     ){
         $this->customerService = $customerService;
         $this->reviewService = $reviewService;
+        $this->orderService = $orderService;
     }
     public function profile(){
         $user = $this->customerService->getProfile();
@@ -104,7 +108,6 @@ class MainController extends Controller
             'quantities'=>'nullable|array',
             'quantities.*'=>'required|integer|min:1|max:100'
         ]);
-        // dd($data);
         $this->customerService->updateCart($data,true);
 
         session()->forget('coupon_rate');
@@ -135,6 +138,18 @@ class MainController extends Controller
         
 
         return back()->with('success','Coupon successfully applied');
+    }
+
+    public function makeOrder(Request $request)
+    {
+        $data=$request->validate([
+            'payment_method_id' => 'required|integer|exists:payment_methods,id',
+            'shipping_address'=>"nullable|string"
+        ]);
+
+        $this->orderService->placeOrder($data,true);
+        return redirect()->route('Home');
+        // return back()->with('success','Order has been placed successfully');
     }
     
     

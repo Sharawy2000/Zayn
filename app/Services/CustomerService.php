@@ -44,8 +44,11 @@ class CustomerService extends BaseService
     public function cart($isWeb=null){
         $customer =$this->customer($isWeb);
         $cart = $customer->cart;
+
         if(!$cart){
             return ['errorCartNotFound'=>true];
+        }elseif($isWeb && !$cart){
+            return true;
         }
         // $cartItems = $this->cartRepository->getRelationData($cart,'items');
         $cartItems = $this->cartItemRepository->getCustomerCartItems($cart->id,3);

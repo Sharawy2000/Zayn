@@ -102,6 +102,8 @@ Route::group([
         Route::patch('update-cart','updateCart')->name('update-cart');
         Route::get('remove-item/{id}','deleteCartItem')->name('remove-item');
         Route::post('apply-coupon','applyCoupon')->name('apply-coupon');
+        Route::post('add-order','makeOrder')->name('add-order');
+
     });
     
     Route::group([
@@ -119,7 +121,7 @@ Route::group([
 
         // products 
         Route::get('shop','allProducts')->name('shop');
-        Route::get('all-products/{id}','showProduct')->name('show-product');
+        Route::get('shop-products/{id}','showProduct')->name('show-product');
 
         
     });

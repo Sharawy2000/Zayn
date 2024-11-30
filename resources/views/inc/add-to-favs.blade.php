@@ -4,6 +4,7 @@
 
         let button = $(this); // Reference the clicked button.
         let productID = button.data('product-id'); // Retrieve the product ID.
+        let productName = button.data('product-name'); // Retrieve the product ID.
 
         $.ajax({
             url: '{{ route('add-favs') }}', // Laravel route to handle toggle favorite.
@@ -16,9 +17,12 @@
                 if(response.attached != ""){
                     button.find('.icon-heart1').attr('src', '/web-app/images/icons/icon-heart-02.png');
                     button.find('.icon-heart2').attr('src', '/web-app/images/icons/icon-heart-01.png');
+                    swal(productName,"Added to wishlist!", "success");
                 }else{
                     button.find('.icon-heart1').attr('src', '/web-app/images/icons/icon-heart-01.png');
                     button.find('.icon-heart2').attr('src', '/web-app/images/icons/icon-heart-02.png');
+                    swal(productName,"Removed from wishlist!", "error");
+
                 }
             },
             error: function (xhr) {

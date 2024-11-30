@@ -26,10 +26,16 @@ class OrderService extends BaseService
         $this->notificationRepository=$notificationRepository;
     }
 
-    public function placeOrder($data){
+    public function placeOrder($data,$isWeb=null){
+        if($isWeb){
+            $customer = Auth::guard('web-customer')->user();
 
-        $customer = Auth::guard('api-customer')->user();
+        }else{
+
+            $customer = Auth::guard('api-customer')->user();
+        }
         $data['customer_id']=$customer->id;
+        
         $customerCart = $customer->cart;
 
         $shippingFees = $customerCart->price > 100 ? 0 : 100 ;

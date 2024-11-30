@@ -58,7 +58,7 @@
                         <h4 class="mtext-105 cl2 js-name-detail p-b-14">
                             {{ $product->name }}
                         </h4>
-
+                        {{-- <input type="hidden" class="mtext-105 cl2 js-id-detail p-b-14" value="{{ $product->id }}"> --}}
                         <span class="mtext-106 cl2">
                             ${{ $product->price }}
                         </span>
@@ -123,7 +123,7 @@
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addedcart-detail" form="add-to-cart-form">
+                                    <button type="submit" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 btn-add-cart js-addcart-detail" form="add-to-cart-form">
                                         Add to cart
                                     </button>
                                 </div>
@@ -133,9 +133,10 @@
                         {{-- <!--  --> --}}
                         <div class="flex-w flex-m p-l-100 p-t-40 respon7">
                             <div class="flex-m bor9 p-r-10 m-r-11">
-                                <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100 favourite" 
+                                <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 tooltip100 favourite js-addwish-detail" 
                                     data-tooltip="Add to Wishlist"
-                                    data-item-id="{{ $product->id }}">
+                                    data-item-id="{{ $product->id }}"
+                                    data-item-name="{{ $product->name }}">
                                     @auth('web-customer')
                                     <i class="zmdi zmdi-favorite{{ auth()->guard('web-customer')->user()->favorites->contains($product->id) ? '' : '-outline' }}" id="heart-icon-{{ $product->id }}"></i>
                                     @endauth
@@ -380,7 +381,7 @@
                                 </div>
 
                                 <div class="block2-txt-child2 flex-r p-t-3">
-                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative addTofav " data-product-id="{{ $product->id }}">
+                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative addTofav " data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}">
                                         @auth('web-customer')
                                         @if(auth()->guard('web-customer')->user()->favorites->contains($product->id))
                                         <!-- Filled heart for favorited products -->
@@ -423,14 +424,15 @@
             }
         });
     });
-
-
     $(document).ready(function () {
+
         $('.favourite').click(function (e) {
             e.preventDefault(); // Prevent default behavior.
 
             let productID = $(this).data('item-id'); // Get the product ID.
+            let productName = $(this).data('item-name'); // Get the product ID.
             let heartIcon = $('#heart-icon-' + productID); // Target the specific heart icon.
+            
 
             $.ajax({
                 url: '{{ route('add-favs') }}', // Laravel route for adding/removing favorites.
@@ -445,10 +447,13 @@
                         $(heartIcon)
                             .removeClass('zmdi zmdi-favorite-outline')
                             .addClass('zmdi zmdi-favorite');
+                            swal(productName,"Added to wishlist!", "success");
+
                     } else {
                         $(heartIcon)
                             .removeClass('zmdi zmdi-favorite')
                             .addClass('zmdi zmdi-favorite-outline');
+                            swal(productName,"Removed from wishlist!", "error");
                     }
 
                 },
