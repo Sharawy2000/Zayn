@@ -230,7 +230,7 @@
                                             <span class="stext-102 cl6 size-206" style="display:inline">
                                                 @foreach ($color->all() as $color )
                                                     {{ ucfirst($color->name ) }}
-                                                    @endforeach
+                                                @endforeach
                                             </span>
                                         </li>
 
@@ -239,8 +239,10 @@
                                                 Size
                                             </span>
 
-                                            <span class="stext-102 cl6 size-206">
-                                                XL, L, M, S
+                                            <span class="stext-102 cl6 size-206" style="display:inline">
+                                                @foreach ($size->all() as $size )
+                                                    {{ ucfirst($size->name ) }}
+                                                @endforeach
                                             </span>
                                         </li>
                                     </ul>

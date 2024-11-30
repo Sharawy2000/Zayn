@@ -9,7 +9,7 @@
 <div class="bg0 m-t-23 p-b-140">
     <div class="container">
         <div class="p-b-10">
-            <h3 class="ltext-103 cl5">
+            <h3 class="ltext-103 cl5" style="margin-bottom:20px">
                 Favourites
             </h3>
         </div>
